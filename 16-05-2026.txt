@@ -1,3 +1,6 @@
+CREATE DATABASE vitcampus;
+USE vitcampus;
+
 CREATE TABLE CSE(
  sid int8,
  sname varchar(50),
