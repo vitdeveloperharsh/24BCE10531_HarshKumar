@@ -1,0 +1,40 @@
+CREATE TABLE CSE(
+ sid int8,
+ sname varchar(50),
+ smarks int1
+ );
+ CREATE TABLE Mech(
+ sid int8,
+ sname varchar(50),
+ smarks int1
+ );
+ CREATE TABLE EEE(
+ sid int8,
+ sname varchar(50),
+ smarks int1
+ );
+
+INSERT INTO CSE (sid, sname, smarks) VALUES 
+(101, 'Aarav Sharma', 95),
+(102, 'Ananya Iyer', 88),
+(103, 'Kabir Verma', 74),
+(104, 'Riya Kapoor', 91),
+(109, 'Kiran Deshmukh', 99);
+
+INSERT INTO Mech (sid, sname, smarks) VALUES 
+(201, 'Rohan Das', 82),
+(202, 'Aditya Patel', 65),
+(203, 'Meera Nair', 78),
+(204, 'Vikram Singh', 89),
+(205, 'Neha Reddy', 71);
+
+INSERT INTO EEE (sid, sname, smarks) VALUES 
+(301, 'Arjun Gupta', 85),
+(302, 'Sanya Malhotra', 92),
+(303, 'Devansh Joshi', 68),
+(304, 'Isha Choudhury', 76),
+(305, 'Rahul Mehta', 80);
+
+SELECT * FROM CSE;
+SELECT * FROM Mech;
+SELECT * FROM EEE;
