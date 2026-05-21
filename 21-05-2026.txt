@@ -1,0 +1,110 @@
+CREATE DATABASE IF NOT EXISTS vitcampus;
+USE vitcampus;
+
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS category;
+
+CREATE TABLE category (
+    cid int PRIMARY KEY,
+    cname varchar(100) NOT NULL
+);
+
+INSERT INTO category (cid, cname) VALUES 
+(101, 'electronics'),
+(102, 'Home Appliances');
+
+SELECT * FROM category;
+
+CREATE TABLE products (
+    pid int PRIMARY KEY,
+    pname varchar(100) NOT NULL,
+    prefNo int NOT NULL UNIQUE,
+    cid int,
+    CONSTRAINT FK_CategoryProduct FOREIGN KEY (cid) REFERENCES category(cid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DESC products;
+
+INSERT INTO products(pid, pname, prefNo, cid) VALUES 
+(501, 'furniture', 19930, NULL),
+(502, 'Laptop', 19931, 101),
+(503, 'Refrigerator', 19932, 102);
+
+SELECT * FROM products;
+
+DELETE FROM category WHERE cid = 101;
+
+SELECT * FROM category;
+SELECT * FROM products;
+
+DROP TABLE IF EXISTS worker;
+
+CREATE TABLE worker (
+    worker_id int PRIMARY KEY,
+    first_name varchar(50),
+    last_name varchar(50),
+    salary int,
+    department varchar(50)
+);
+
+INSERT INTO worker VALUES 
+(1, 'Monika', 'Arora', 100000, 'HR'),
+(2, 'Niharika', 'Verma', 80000, 'Admin'),
+(3, 'Vishal', 'Singhal', 300000, 'HR'),
+(4, 'Amitabh', 'Singh', 500000, 'Admin'),
+(5, 'Vivek', 'Bhati', 500000, 'Admin'),
+(6, 'Vipul', 'Diwan', 200000, 'Account'),
+(7, 'Satish', 'Kumar', 75000, 'Account'),
+(8, 'Geetika', 'Chauhan', 90000, 'Admin');
+
+SELECT * FROM worker;
+
+SELECT * FROM worker WHERE department='admin' ORDER BY salary ASC;
+
+SELECT * FROM worker WHERE department='hr' ORDER BY salary DESC;
+
+SELECT COUNT(worker_id) FROM worker WHERE department ='admin' OR department='hr';
+
+SELECT department, COUNT(department) FROM worker
+GROUP BY department;
+
+SELECT department, COUNT(department) FROM worker
+GROUP BY department ORDER BY department DESC;
+
+SELECT department, SUM(salary) 
+FROM worker 
+GROUP BY department;
+
+SELECT department, COUNT(department) FROM worker
+GROUP BY department HAVING COUNT(department) >=3 ORDER BY department ASC;
+
+SELECT department, SUM(salary) FROM worker
+GROUP BY department HAVING SUM(salary) <= 300000 ORDER BY department ASC;
+
+SELECT * FROM worker LIMIT 3 OFFSET 3;
+
+DROP TABLE IF EXISTS toppers;
+CREATE TABLE toppers(id int);
+INSERT INTO toppers VALUES (1),(2);
+
+SELECT worker_id, first_name, department FROM worker
+WHERE worker_id IN (SELECT id FROM toppers);
+
+SELECT SUM(salary), department FROM worker 
+GROUP BY department 
+ORDER BY SUM(salary) ASC LIMIT 2;
+
+SELECT first_name, department, salary FROM worker
+ORDER BY salary DESC LIMIT 1 OFFSET 1;
+
+SELECT first_name, department, salary
+FROM worker w1
+WHERE salary = (
+    SELECT DISTINCT salary FROM worker w2
+    WHERE w1.department = w2.department
+    ORDER BY salary DESC
+    LIMIT 1 OFFSET 1
+);
+
+SELECT department, MAX(salary) 
+FROM worker GROUP BY department;
