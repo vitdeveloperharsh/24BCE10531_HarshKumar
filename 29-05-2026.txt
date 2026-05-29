@@ -1,0 +1,61 @@
+db.products.insertMany([
+  { "_id" : 1, "name" : "xPhone", "price": 799, "releaseDate" : ISODate("2011-05-14T00:00:00Z"), "spec": { "ram": 4, "screen": 6.5, "cpu": 2.66 }, "color": [ "white", "black" ], "storage" : [ 64, 128, 256 ] },
+  { "_id" : 2, "name" : "xTablet", "price": 899, "releaseDate" : ISODate("2011-09-01T00:00:00Z"), "spec": { "ram": 16, "screen": 9.5, "cpu": 3.66 }, "color": [ "white", "black", "purple" ], "storage" : [ 128, 256, 512 ] },
+  { "_id" : 3, "name" : "SmartTablet", "price" : 899, "releaseDate" : ISODate("2015-01-14T00:00:00Z"), "spec" : { "ram": 12, "screen": 9.7, "cpu": 3.66 }, "color": [ "blue" ], "storage" : [ 16, 64, 128 ] },
+  { "_id" : 4, "name" : "SmartPad", "price": 699, "releaseDate" : ISODate("2020-05-14T00:00:00Z"), "spec": { "ram": 8, "screen" : 9.7, "cpu": 1.66 }, "color": [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256, 1024 ] },
+  { "_id" : 5, "name" : "SmartPhone", "price": 599, "releaseDate" : ISODate("2022-09-14T00:00:00Z"), "spec" : { "ram": 4, "screen": 5.7, "cpu": 1.66 }, "color": [ "white", "orange", "gold", "gray" ], "storage" : [ 128, 256 ] }
+]);
+
+db.products.find({}, { name: 1, price: 1 }).sort({ price: -1 }).limit(1);
+
+db.products.find({}, { name: 1, price: 1 }).sort({ price: -1, name: 1 }).limit(1);
+
+db.products.find({}, { name: 1, price: 1 }).sort({ price: -1, name: 1 }).skip(2).limit(2);
+
+db.products.find({}, { name: 1, price: 1 }).sort({ name: 1 }).skip(0).limit(3);
+
+db.products.find({}, { name: 1, price: 1 }).sort({ price: 1, name: 1 }).limit(3);
+
+db.products.find({}, { name: 1, price: 1 }).sort({ price: -1, name: 1 }).skip(4).limit(2);
+
+db.products.updateMany({ price: 899 }, { $set: { price: 895 } });
+
+db.products.find({ price: 895 }, { name: 1, price: 1 });
+
+db.products.find({ price: { $gt: 700 } }, { name: 1, price: 1, spec: 1 });
+
+db.products.updateMany({ price: { $gt: 700 } }, { $set: { "spec.ram": 32, "spec.screen": 9.8, "spec.cpu": 5.66 } });
+
+db.products.updateMany({ _id: { $in: [1, 2, 3] } }, { $set: { "storage.0": 16, "storage.1": 32 } });
+
+db.products.find({ _id: { $in: [1, 2, 3] } }, { name: 1, storage: 1 });
+
+db.products.updateMany({ "spec.ram": 4 }, { $set: { "spec.hardwareUpgrade": true, warranty: "2 Years" } });
+
+db.products.updateMany({ color: "black" }, { $set: { "spec.colorPremium": true } });
+
+db.products.updateOne({ _id: 1 }, { $inc: { price: 150 } });
+
+db.products.find({ _id: 1 }, { name: 1, price: 1 });
+
+db.products.updateOne({ _id: 1 }, { $inc: { price: -50 } });
+
+db.products.find({ _id: 1 }, { name: 1, price: 1 });
+
+db.products.updateOne({ _id: 1 }, { $inc: { price: 50, "spec.ram": 4 } });
+
+db.products.find({ _id: 1 }, { name: 1, price: 1, spec: 1 });
+
+db.products.updateMany({ price: { $gt: 500 } }, { $inc: { price: 25 } });
+
+db.products.updateMany({ "spec.ram": 4 }, { $inc: { price: -10 } });
+
+db.products.updateOne({ _id: 5 }, { $min: { price: 699 } });
+
+db.products.updateOne({ _id: 5 }, { $min: { price: 199 } });
+
+db.products.find({ _id: 5 }, { name: 1, price: 1 });
+
+db.products.updateMany({}, { $min: { price: 550 } });
+
+db.products.updateMany({}, { $min: { price: 750 } });
